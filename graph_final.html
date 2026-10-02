@@ -1,0 +1,164 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #050505;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#EF4444", "font": {"color": "white"}, "id": "A100107", "label": "A100107", "shape": "dot", "size": 20, "title": "Acc: A100107 | Risk: 0.20 | Vol: $22,131"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100166", "label": "A100166", "shape": "dot", "size": 20, "title": "Acc: A100166 | Risk: 0.06 | Vol: $22,131"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100095", "label": "A100095", "shape": "dot", "size": 20, "title": "Acc: A100095 | Risk: 0.13 | Vol: $28,615"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100087", "label": "A100087", "shape": "dot", "size": 20, "title": "Acc: A100087 | Risk: 0.07 | Vol: $28,615"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100175", "label": "A100175", "shape": "dot", "size": 20, "title": "Acc: A100175 | Risk: 0.29 | Vol: $27,264"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100186", "label": "A100186", "shape": "dot", "size": 20, "title": "Acc: A100186 | Risk: 0.08 | Vol: $27,264"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100002", "label": "A100002", "shape": "dot", "size": 20, "title": "Acc: A100002 | Risk: 0.36 | Vol: $24,690"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100035", "label": "A100035", "shape": "dot", "size": 20, "title": "Acc: A100035 | Risk: 0.08 | Vol: $24,690"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100052", "label": "A100052", "shape": "dot", "size": 20, "title": "Acc: A100052 | Risk: 0.91 | Vol: $6,935"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100177", "label": "A100177", "shape": "dot", "size": 10, "title": "Acc: A100177 | Risk: 0.04 | Vol: $6,935"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100180", "label": "A100180", "shape": "dot", "size": 10, "title": "Acc: A100180 | Risk: 0.11 | Vol: $6,373"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100112", "label": "A100112", "shape": "dot", "size": 10, "title": "Acc: A100112 | Risk: 0.22 | Vol: $7,368"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100151", "label": "A100151", "shape": "dot", "size": 20, "title": "Acc: A100151 | Risk: 0.50 | Vol: $23,437"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100075", "label": "A100075", "shape": "dot", "size": 20, "title": "Acc: A100075 | Risk: 0.78 | Vol: $6,179"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100041", "label": "A100041", "shape": "dot", "size": 10, "title": "Acc: A100041 | Risk: 0.05 | Vol: $6,179"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100123", "label": "A100123", "shape": "dot", "size": 20, "title": "Acc: A100123 | Risk: 0.23 | Vol: $23,437"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100065", "label": "A100065", "shape": "dot", "size": 20, "title": "Acc: A100065 | Risk: 0.68 | Vol: $8,098"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100164", "label": "A100164", "shape": "dot", "size": 10, "title": "Acc: A100164 | Risk: 0.12 | Vol: $8,098"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100188", "label": "A100188", "shape": "dot", "size": 10, "title": "Acc: A100188 | Risk: 0.04 | Vol: $26"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100043", "label": "A100043", "shape": "dot", "size": 10, "title": "Acc: A100043 | Risk: 0.04 | Vol: $41"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100199", "label": "A100199", "shape": "dot", "size": 10, "title": "Acc: A100199 | Risk: 0.04 | Vol: $41"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100117", "label": "A100117", "shape": "dot", "size": 10, "title": "Acc: A100117 | Risk: 0.10 | Vol: $40"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100082", "label": "A100082", "shape": "dot", "size": 10, "title": "Acc: A100082 | Risk: 0.04 | Vol: $46"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100027", "label": "A100027", "shape": "dot", "size": 10, "title": "Acc: A100027 | Risk: 0.02 | Vol: $54"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100144", "label": "A100144", "shape": "dot", "size": 10, "title": "Acc: A100144 | Risk: 0.10 | Vol: $35"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100054", "label": "A100054", "shape": "dot", "size": 10, "title": "Acc: A100054 | Risk: 0.08 | Vol: $87"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100047", "label": "A100047", "shape": "dot", "size": 10, "title": "Acc: A100047 | Risk: 0.03 | Vol: $87"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100088", "label": "A100088", "shape": "dot", "size": 10, "title": "Acc: A100088 | Risk: 0.06 | Vol: $42"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100081", "label": "A100081", "shape": "dot", "size": 10, "title": "Acc: A100081 | Risk: 0.08 | Vol: $42"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100195", "label": "A100195", "shape": "dot", "size": 10, "title": "Acc: A100195 | Risk: 0.03 | Vol: $27"}, {"color": "#F59E0B", "font": {"color": "white"}, "id": "A100056", "label": "A100056", "shape": "dot", "size": 15, "title": "Acc: A100056 | Risk: 0.42 | Vol: $27"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100171", "label": "A100171", "shape": "dot", "size": 10, "title": "Acc: A100171 | Risk: 0.13 | Vol: $45"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100150", "label": "A100150", "shape": "dot", "size": 10, "title": "Acc: A100150 | Risk: 0.10 | Vol: $42"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100172", "label": "A100172", "shape": "dot", "size": 10, "title": "Acc: A100172 | Risk: 0.09 | Vol: $54"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100067", "label": "A100067", "shape": "dot", "size": 10, "title": "Acc: A100067 | Risk: 0.06 | Vol: $48"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100167", "label": "A100167", "shape": "dot", "size": 10, "title": "Acc: A100167 | Risk: 0.12 | Vol: $48"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100055", "label": "A100055", "shape": "dot", "size": 10, "title": "Acc: A100055 | Risk: 0.12 | Vol: $27"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100113", "label": "A100113", "shape": "dot", "size": 10, "title": "Acc: A100113 | Risk: 0.02 | Vol: $176"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100060", "label": "A100060", "shape": "dot", "size": 10, "title": "Acc: A100060 | Risk: 0.08 | Vol: $176"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100046", "label": "A100046", "shape": "dot", "size": 10, "title": "Acc: A100046 | Risk: 0.26 | Vol: $2,003"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "A100173", "label": "A100173", "shape": "dot", "size": 20, "title": "Acc: A100173 | Risk: 0.66 | Vol: $5,399"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100080", "label": "A100080", "shape": "dot", "size": 10, "title": "Acc: A100080 | Risk: 0.07 | Vol: $5,399"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100097", "label": "A100097", "shape": "dot", "size": 10, "title": "Acc: A100097 | Risk: 0.16 | Vol: $35"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100104", "label": "A100104", "shape": "dot", "size": 10, "title": "Acc: A100104 | Risk: 0.12 | Vol: $34"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100038", "label": "A100038", "shape": "dot", "size": 10, "title": "Acc: A100038 | Risk: 0.09 | Vol: $34"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100042", "label": "A100042", "shape": "dot", "size": 10, "title": "Acc: A100042 | Risk: 0.23 | Vol: $3,332"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100028", "label": "A100028", "shape": "dot", "size": 10, "title": "Acc: A100028 | Risk: 0.22 | Vol: $14"}, {"color": "#10B981", "font": {"color": "white"}, "id": "A100019", "label": "A100019", "shape": "dot", "size": 10, "title": "Acc: A100019 | Risk: 0.12 | Vol: $14"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#333333", "from": "A100107", "to": "A100166"}, {"arrows": "to", "color": "#333333", "from": "A100095", "to": "A100087"}, {"arrows": "to", "color": "#333333", "from": "A100175", "to": "A100186"}, {"arrows": "to", "color": "#333333", "from": "A100002", "to": "A100035"}, {"arrows": "to", "color": "#333333", "from": "A100052", "to": "A100177"}, {"arrows": "to", "color": "#333333", "from": "A100180", "to": "A100107"}, {"arrows": "to", "color": "#333333", "from": "A100180", "to": "A100097"}, {"arrows": "to", "color": "#333333", "from": "A100112", "to": "A100151"}, {"arrows": "to", "color": "#333333", "from": "A100151", "to": "A100123"}, {"arrows": "to", "color": "#333333", "from": "A100075", "to": "A100041"}, {"arrows": "to", "color": "#333333", "from": "A100065", "to": "A100164"}, {"arrows": "to", "color": "#333333", "from": "A100188", "to": "A100043"}, {"arrows": "to", "color": "#333333", "from": "A100199", "to": "A100117"}, {"arrows": "to", "color": "#333333", "from": "A100199", "to": "A100043"}, {"arrows": "to", "color": "#333333", "from": "A100082", "to": "A100180"}, {"arrows": "to", "color": "#333333", "from": "A100082", "to": "A100171"}, {"arrows": "to", "color": "#333333", "from": "A100027", "to": "A100144"}, {"arrows": "to", "color": "#333333", "from": "A100027", "to": "A100172"}, {"arrows": "to", "color": "#333333", "from": "A100144", "to": "A100055"}, {"arrows": "to", "color": "#333333", "from": "A100054", "to": "A100047"}, {"arrows": "to", "color": "#333333", "from": "A100054", "to": "A100087"}, {"arrows": "to", "color": "#333333", "from": "A100088", "to": "A100081"}, {"arrows": "to", "color": "#333333", "from": "A100088", "to": "A100150"}, {"arrows": "to", "color": "#333333", "from": "A100195", "to": "A100056"}, {"arrows": "to", "color": "#333333", "from": "A100067", "to": "A100167"}, {"arrows": "to", "color": "#333333", "from": "A100113", "to": "A100060"}, {"arrows": "to", "color": "#333333", "from": "A100046", "to": "A100151"}, {"arrows": "to", "color": "#333333", "from": "A100173", "to": "A100080"}, {"arrows": "to", "color": "#333333", "from": "A100104", "to": "A100038"}, {"arrows": "to", "color": "#333333", "from": "A100042", "to": "A100107"}, {"arrows": "to", "color": "#333333", "from": "A100028", "to": "A100019"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -50,
+            "springConstant": 0.08,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

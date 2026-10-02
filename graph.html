@@ -1,0 +1,274 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #1E1E1E;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#00CC96", "font": {"color": "white"}, "id": "A100116", "label": "A100116", "shape": "dot", "size": 10, "title": "Account: A100116\nRisk Score: 0.11"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "0", "label": "0", "shape": "dot", "size": 10, "title": "Account: 0\nRisk Score: 0.00"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100065", "label": "A100065", "shape": "dot", "size": 15, "title": "Account: A100065\nRisk Score: 0.59"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100164", "label": "A100164", "shape": "dot", "size": 10, "title": "Account: A100164\nRisk Score: 0.18"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100025", "label": "A100025", "shape": "dot", "size": 15, "title": "Account: A100025\nRisk Score: 0.50"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100044", "label": "A100044", "shape": "dot", "size": 10, "title": "Account: A100044\nRisk Score: 0.24"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100062", "label": "A100062", "shape": "dot", "size": 10, "title": "Account: A100062\nRisk Score: 0.15"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100011", "label": "A100011", "shape": "dot", "size": 10, "title": "Account: A100011\nRisk Score: 0.23"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100188", "label": "A100188", "shape": "dot", "size": 10, "title": "Account: A100188\nRisk Score: 0.13"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100043", "label": "A100043", "shape": "dot", "size": 10, "title": "Account: A100043\nRisk Score: 0.09"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100073", "label": "A100073", "shape": "dot", "size": 10, "title": "Account: A100073\nRisk Score: 0.07"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100198", "label": "A100198", "shape": "dot", "size": 10, "title": "Account: A100198\nRisk Score: 0.11"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100171", "label": "A100171", "shape": "dot", "size": 10, "title": "Account: A100171\nRisk Score: 0.28"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100166", "label": "A100166", "shape": "dot", "size": 10, "title": "Account: A100166\nRisk Score: 0.12"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100054", "label": "A100054", "shape": "dot", "size": 10, "title": "Account: A100054\nRisk Score: 0.16"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100092", "label": "A100092", "shape": "dot", "size": 10, "title": "Account: A100092\nRisk Score: 0.11"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100088", "label": "A100088", "shape": "dot", "size": 10, "title": "Account: A100088\nRisk Score: 0.17"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100150", "label": "A100150", "shape": "dot", "size": 10, "title": "Account: A100150\nRisk Score: 0.11"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100115", "label": "A100115", "shape": "dot", "size": 10, "title": "Account: A100115\nRisk Score: 0.19"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100197", "label": "A100197", "shape": "dot", "size": 10, "title": "Account: A100197\nRisk Score: 0.12"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100037", "label": "A100037", "shape": "dot", "size": 10, "title": "Account: A100037\nRisk Score: 0.10"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100080", "label": "A100080", "shape": "dot", "size": 10, "title": "Account: A100080\nRisk Score: 0.17"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100007", "label": "A100007", "shape": "dot", "size": 10, "title": "Account: A100007\nRisk Score: 0.13"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100057", "label": "A100057", "shape": "dot", "size": 10, "title": "Account: A100057\nRisk Score: 0.08"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100127", "label": "A100127", "shape": "dot", "size": 15, "title": "Account: A100127\nRisk Score: 0.46"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100036", "label": "A100036", "shape": "dot", "size": 10, "title": "Account: A100036\nRisk Score: 0.14"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100070", "label": "A100070", "shape": "dot", "size": 10, "title": "Account: A100070\nRisk Score: 0.17"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100082", "label": "A100082", "shape": "dot", "size": 10, "title": "Account: A100082\nRisk Score: 0.15"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100163", "label": "A100163", "shape": "dot", "size": 10, "title": "Account: A100163\nRisk Score: 0.17"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100129", "label": "A100129", "shape": "dot", "size": 10, "title": "Account: A100129\nRisk Score: 0.16"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100048", "label": "A100048", "shape": "dot", "size": 10, "title": "Account: A100048\nRisk Score: 0.13"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100038", "label": "A100038", "shape": "dot", "size": 10, "title": "Account: A100038\nRisk Score: 0.22"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100014", "label": "A100014", "shape": "dot", "size": 10, "title": "Account: A100014\nRisk Score: 0.10"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100094", "label": "A100094", "shape": "dot", "size": 10, "title": "Account: A100094\nRisk Score: 0.08"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100027", "label": "A100027", "shape": "dot", "size": 10, "title": "Account: A100027\nRisk Score: 0.15"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100190", "label": "A100190", "shape": "dot", "size": 10, "title": "Account: A100190\nRisk Score: 0.15"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100058", "label": "A100058", "shape": "dot", "size": 10, "title": "Account: A100058\nRisk Score: 0.08"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100147", "label": "A100147", "shape": "dot", "size": 10, "title": "Account: A100147\nRisk Score: 0.09"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100165", "label": "A100165", "shape": "dot", "size": 10, "title": "Account: A100165\nRisk Score: 0.11"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100046", "label": "A100046", "shape": "dot", "size": 10, "title": "Account: A100046\nRisk Score: 0.25"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100151", "label": "A100151", "shape": "dot", "size": 15, "title": "Account: A100151\nRisk Score: 0.53"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100035", "label": "A100035", "shape": "dot", "size": 10, "title": "Account: A100035\nRisk Score: 0.16"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100181", "label": "A100181", "shape": "dot", "size": 10, "title": "Account: A100181\nRisk Score: 0.13"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100079", "label": "A100079", "shape": "dot", "size": 10, "title": "Account: A100079\nRisk Score: 0.12"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100173", "label": "A100173", "shape": "dot", "size": 15, "title": "Account: A100173\nRisk Score: 0.53"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100023", "label": "A100023", "shape": "dot", "size": 10, "title": "Account: A100023\nRisk Score: 0.12"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100084", "label": "A100084", "shape": "dot", "size": 15, "title": "Account: A100084\nRisk Score: 0.62"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100104", "label": "A100104", "shape": "dot", "size": 10, "title": "Account: A100104\nRisk Score: 0.20"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100095", "label": "A100095", "shape": "dot", "size": 10, "title": "Account: A100095\nRisk Score: 0.31"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100075", "label": "A100075", "shape": "dot", "size": 15, "title": "Account: A100075\nRisk Score: 0.64"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100100", "label": "A100100", "shape": "dot", "size": 10, "title": "Account: A100100\nRisk Score: 0.08"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100118", "label": "A100118", "shape": "dot", "size": 10, "title": "Account: A100118\nRisk Score: 0.35"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100091", "label": "A100091", "shape": "dot", "size": 10, "title": "Account: A100091\nRisk Score: 0.13"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100141", "label": "A100141", "shape": "dot", "size": 10, "title": "Account: A100141\nRisk Score: 0.22"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100184", "label": "A100184", "shape": "dot", "size": 10, "title": "Account: A100184\nRisk Score: 0.10"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100063", "label": "A100063", "shape": "dot", "size": 10, "title": "Account: A100063\nRisk Score: 0.22"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100117", "label": "A100117", "shape": "dot", "size": 10, "title": "Account: A100117\nRisk Score: 0.17"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100120", "label": "A100120", "shape": "dot", "size": 10, "title": "Account: A100120\nRisk Score: 0.17"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100125", "label": "A100125", "shape": "dot", "size": 10, "title": "Account: A100125\nRisk Score: 0.09"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100059", "label": "A100059", "shape": "dot", "size": 10, "title": "Account: A100059\nRisk Score: 0.10"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100056", "label": "A100056", "shape": "dot", "size": 10, "title": "Account: A100056\nRisk Score: 0.09"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100175", "label": "A100175", "shape": "dot", "size": 15, "title": "Account: A100175\nRisk Score: 0.46"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100186", "label": "A100186", "shape": "dot", "size": 10, "title": "Account: A100186\nRisk Score: 0.14"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100020", "label": "A100020", "shape": "dot", "size": 10, "title": "Account: A100020\nRisk Score: 0.22"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100026", "label": "A100026", "shape": "dot", "size": 15, "title": "Account: A100026\nRisk Score: 0.51"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100130", "label": "A100130", "shape": "dot", "size": 10, "title": "Account: A100130\nRisk Score: 0.15"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100019", "label": "A100019", "shape": "dot", "size": 10, "title": "Account: A100019\nRisk Score: 0.19"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100146", "label": "A100146", "shape": "dot", "size": 10, "title": "Account: A100146\nRisk Score: 0.28"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100067", "label": "A100067", "shape": "dot", "size": 10, "title": "Account: A100067\nRisk Score: 0.13"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100086", "label": "A100086", "shape": "dot", "size": 10, "title": "Account: A100086\nRisk Score: 0.29"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100193", "label": "A100193", "shape": "dot", "size": 10, "title": "Account: A100193\nRisk Score: 0.10"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100064", "label": "A100064", "shape": "dot", "size": 10, "title": "Account: A100064\nRisk Score: 0.14"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100069", "label": "A100069", "shape": "dot", "size": 10, "title": "Account: A100069\nRisk Score: 0.25"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100024", "label": "A100024", "shape": "dot", "size": 10, "title": "Account: A100024\nRisk Score: 0.11"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100060", "label": "A100060", "shape": "dot", "size": 10, "title": "Account: A100060\nRisk Score: 0.18"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100126", "label": "A100126", "shape": "dot", "size": 15, "title": "Account: A100126\nRisk Score: 0.52"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100076", "label": "A100076", "shape": "dot", "size": 10, "title": "Account: A100076\nRisk Score: 0.17"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100113", "label": "A100113", "shape": "dot", "size": 10, "title": "Account: A100113\nRisk Score: 0.17"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "A100052", "label": "A100052", "shape": "dot", "size": 15, "title": "Account: A100052\nRisk Score: 0.64"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100177", "label": "A100177", "shape": "dot", "size": 10, "title": "Account: A100177\nRisk Score: 0.10"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100045", "label": "A100045", "shape": "dot", "size": 10, "title": "Account: A100045\nRisk Score: 0.28"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100017", "label": "A100017", "shape": "dot", "size": 10, "title": "Account: A100017\nRisk Score: 0.17"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100156", "label": "A100156", "shape": "dot", "size": 10, "title": "Account: A100156\nRisk Score: 0.10"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100093", "label": "A100093", "shape": "dot", "size": 10, "title": "Account: A100093\nRisk Score: 0.21"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100124", "label": "A100124", "shape": "dot", "size": 10, "title": "Account: A100124\nRisk Score: 0.27"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100083", "label": "A100083", "shape": "dot", "size": 10, "title": "Account: A100083\nRisk Score: 0.10"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100136", "label": "A100136", "shape": "dot", "size": 10, "title": "Account: A100136\nRisk Score: 0.14"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100039", "label": "A100039", "shape": "dot", "size": 10, "title": "Account: A100039\nRisk Score: 0.09"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100182", "label": "A100182", "shape": "dot", "size": 10, "title": "Account: A100182\nRisk Score: 0.18"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100149", "label": "A100149", "shape": "dot", "size": 10, "title": "Account: A100149\nRisk Score: 0.11"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100143", "label": "A100143", "shape": "dot", "size": 10, "title": "Account: A100143\nRisk Score: 0.10"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100108", "label": "A100108", "shape": "dot", "size": 10, "title": "Account: A100108\nRisk Score: 0.16"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100042", "label": "A100042", "shape": "dot", "size": 10, "title": "Account: A100042\nRisk Score: 0.24"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100155", "label": "A100155", "shape": "dot", "size": 10, "title": "Account: A100155\nRisk Score: 0.13"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100005", "label": "A100005", "shape": "dot", "size": 10, "title": "Account: A100005\nRisk Score: 0.06"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100087", "label": "A100087", "shape": "dot", "size": 10, "title": "Account: A100087\nRisk Score: 0.19"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100077", "label": "A100077", "shape": "dot", "size": 10, "title": "Account: A100077\nRisk Score: 0.17"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100061", "label": "A100061", "shape": "dot", "size": 10, "title": "Account: A100061\nRisk Score: 0.08"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100107", "label": "A100107", "shape": "dot", "size": 10, "title": "Account: A100107\nRisk Score: 0.34"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100174", "label": "A100174", "shape": "dot", "size": 10, "title": "Account: A100174\nRisk Score: 0.18"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100071", "label": "A100071", "shape": "dot", "size": 10, "title": "Account: A100071\nRisk Score: 0.18"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100142", "label": "A100142", "shape": "dot", "size": 10, "title": "Account: A100142\nRisk Score: 0.12"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100050", "label": "A100050", "shape": "dot", "size": 10, "title": "Account: A100050\nRisk Score: 0.15"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100160", "label": "A100160", "shape": "dot", "size": 10, "title": "Account: A100160\nRisk Score: 0.09"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100047", "label": "A100047", "shape": "dot", "size": 10, "title": "Account: A100047\nRisk Score: 0.06"}, {"color": "#00CC96", "font": {"color": "white"}, "id": "A100114", "label": "A100114", "shape": "dot", "size": 10, "title": "Account: A100114\nRisk Score: 0.18"}]);
+                  edges = new vis.DataSet([{"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100116", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100065", "to": "A100164", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100164", "to": "A100044", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100025", "to": "A100044", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100025", "to": "A100182", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100044", "to": "A100007", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100062", "to": "A100011", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100188", "to": "A100043", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100073", "to": "A100198", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100171", "to": "A100166", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100054", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100092", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100088", "to": "A100150", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100088", "to": "A100136", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100115", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100197", "to": "A100037", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100197", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100080", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100080", "to": "A100064", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100057", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100127", "to": "A100036", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100127", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100127", "to": "A100050", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100070", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100070", "to": "A100048", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100082", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100163", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100129", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100048", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100038", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100038", "to": "A100155", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100014", "to": "A100094", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100027", "to": "A100190", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100027", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100058", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100147", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100165", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100046", "to": "A100151", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100035", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100181", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100181", "to": "A100038", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100079", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100173", "to": "A100080", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100173", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100023", "to": "A100084", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100084", "to": "A100060", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100104", "to": "A100095", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100095", "to": "A100039", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100095", "to": "A100087", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100075", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100100", "to": "A100118", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100091", "to": "A100141", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100091", "to": "A100060", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100184", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100063", "to": "A100117", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100063", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100117", "to": "A100065", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100120", "to": "A100125", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100059", "to": "A100025", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100056", "to": "A100165", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100175", "to": "A100186", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100020", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100026", "to": "A100130", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100130", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100019", "to": "A100146", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100146", "to": "A100151", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100067", "to": "A100086", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100193", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100064", "to": "A100063", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100069", "to": "A100059", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100024", "to": "A100120", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100126", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100076", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100113", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100052", "to": "A100177", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100045", "to": "A100188", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100017", "to": "A100070", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100156", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100093", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100124", "to": "A100083", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100149", "to": "A100036", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100143", "to": "A100083", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100108", "to": "A100020", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100042", "to": "A100177", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100005", "to": "A100087", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100077", "to": "A100042", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100061", "to": "A100107", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100174", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100071", "to": "A100142", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100160", "to": "0", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100047", "to": "A100124", "width": 1}, {"arrowStrikethrough": false, "arrows": "to", "color": "gray", "from": "A100114", "to": "0", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -50,
+            "springConstant": 0.08,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
