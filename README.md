@@ -30,31 +30,7 @@ To access the live interactive dashboard:
 
 ## 🏗️ Architecture & Pipeline Workflows
 
-┌────────────────────────┐
-                              │   Transaction Data     │
-                              └───────────┬────────────┘
-                                          │
-                 ┌────────────────────────┴────────────────────────┐
-                 ▼                                                 ▼
-    ┌─────────────────────────┐                       ┌─────────────────────────┐
-    │ Tabular Preprocessing   │                       │  NetworkX Graph Engine  │
-    │ (Behavior, Amounts, IP) │                       │ (PageRank, Centrality)  │
-    └────────────┬────────────┘                       └────────────┬────────────┘
-                 │                                                 │
-                 └────────────────────────┬────────────────────────┘
-                                          │
-                                          ▼
-                             ┌─────────────────────────┐
-                             │   Risk Fusion Engine    │
-                             │ (XGBoost / Meta-Fusion) │
-                             └────────────┬────────────┘
-                                          │
-                 ┌────────────────────────┴────────────────────────┘
-                 ▼                                                 ▼
-    ┌─────────────────────────┐                       ┌─────────────────────────┐
-    │  SHAP Explainability    │                       │  Streamlit Command Hub  │
-    │  (Feature Attributions) │                       │  (Interactive Network)  │
-    └─────────────────────────┘                       └─────────────────────────┘
+<img width="716" height="571" alt="image" src="https://github.com/user-attachments/assets/c800c913-1c40-4a78-907a-cb4cca557f35" />
 
     ---
 
