@@ -87,8 +87,3 @@ Since you created a new commit on GitHub, pull the new file down to your compute
 
 ```
 git pull origin main
-
-<img width="966" height="719" alt="Screenshot 2025-11-25 173839" src="https://github.com/user-attachments/assets/62fae5f3-e8e7-42bc-8035-49bc28530c70" />
-<img width="1195" height="733" alt="Screenshot 2025-11-25 223505" src="https://github.com/user-attachments/assets/64d18467-c182-41ac-ba9c-89fc0f2b4325" />
-<img width="1872" height="1005" alt="Screenshot 2025-11-25 174313" src="https://github.com/user-attachments/assets/32b9972e-a7db-4b9d-81f3-35501a777f4c" />
-
