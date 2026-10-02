@@ -104,7 +104,7 @@ python -m streamlit run app.py
 ### Sync your local folder afterward
 Since you created a new commit on GitHub, pull the new file down to your computer so your local repository stays up-to-date:
 
-```powershell
+```
 git pull origin main
 
 <img width="966" height="719" alt="Screenshot 2025-11-25 173839" src="https://github.com/user-attachments/assets/62fae5f3-e8e7-42bc-8035-49bc28530c70" />
